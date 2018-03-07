@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="temp">70sp</dimen>
+    <dimen name="min_max_temp">30sp</dimen>
+    <dimen name="margin">20dp</dimen>
+    <dimen name="min_max_margin">10dp</dimen>
+</resources>

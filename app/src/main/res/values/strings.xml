@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WeatherTest</string>
+    <string name="action_settings">Settings</string>
+    <string name="content_description">content description</string>
+    <string name="degree_format">%+d°</string>
+    <string name="degree_float_format">%+2.0f°</string>
+</resources>
