@@ -42,15 +42,7 @@ public class WeatherApp extends Application {
 
     private Date getNextDate() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 1);
+        calendar.add(Calendar.HOUR_OF_DAY, 1);
         return calendar.getTime();
-    }
-
-    @Override
-    public void onTerminate() {
-        timer.cancel();
-        timer.purge();
-        timer = null;
-        super.onTerminate();
     }
 }
