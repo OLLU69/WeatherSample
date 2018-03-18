@@ -17,7 +17,7 @@ public class ExampleUnitTest {
 
     @Test
     public void weatherTest() throws Exception {
-        WeatherData data = Model.getInstance().getWeatherData(706483, onResult, onFailure);
+        WeatherData data = Model.getInstance().getWeatherData(706483);
         assertNotNull(data);
         assertNotNull( data.main.temp);
         assertNotNull(data.main.temp_min);

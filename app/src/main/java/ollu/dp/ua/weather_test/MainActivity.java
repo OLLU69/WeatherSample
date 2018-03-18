@@ -3,7 +3,6 @@ package ollu.dp.ua.weather_test;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     TextView weatherDescr;
     @BindView(R.id.load_bar)
     FrameLayout loadBar;
-    private WeatherData data = new WeatherData();
+    private WeatherData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,13 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-        loadData();
+        if (savedInstanceState != null) {
+            String dd = savedInstanceState.getString(DATA_KEY);
+            data = new Gson().fromJson(dd, WeatherData.class);
+            bindData(data);
+        }else {
+            loadData();
+        }
     }
 
     @Override
@@ -102,14 +107,6 @@ public class MainActivity extends AppCompatActivity {
         outState.putString(DATA_KEY, new Gson().toJson(data));
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        String dd = savedInstanceState.getString(DATA_KEY);
-        data = new Gson().fromJson(dd, WeatherData.class);
-        bindData(data);
-    }
-
     private void loadData() {
         showCityWeather(Settings.getLastCityId(), Settings.getLastCityName());
     }
@@ -137,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindData(WeatherData data) {
+        if (data == null) return;
         cityName.setText(data.localName);
         temp.setText(getString(R.string.degree_float_format, data.main.temp));
         tempMin.setText(getString(R.string.degree_float_format, data.main.temp_min));

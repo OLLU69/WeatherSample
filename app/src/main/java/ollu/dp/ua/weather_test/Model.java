@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
+import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -52,11 +52,10 @@ class Model {
 
     void getWeatherData(int cityId, Action1<WeatherData> onResult, Action1<Throwable> onFailure) {
 
-        Func1<Object, WeatherData> func = o -> {
+        Func0<WeatherData> func = () -> {
             try {
                 return getWeatherData(cityId);
             } catch (IOException e) {
-                e.printStackTrace();
                 throw new Error(e);
             }
         };
@@ -71,16 +70,10 @@ class Model {
         return response.body();
     }
 
-    // Создает новый источник для RX цепочки ассинхронных вызовов (по умолчанию на отдельном планировщике потоков)
-    private Observable<Object> getObservable() {
-        return Observable.just(null)
-                .subscribeOn(Schedulers.io());
-    }
-
-
-    private <T> void runFunc(Func1<Object, T> func, Action1<T> onResult, Action1<Throwable> onFailure) {
-        getObservable()
-                .map(func)
+    private <T> void runFunc(Func0<T> func, Action1<T> onResult, Action1<Throwable> onFailure) {
+        Observable
+                .<T>create(subscriber -> subscriber.onNext(func.call()))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onResult, onFailure);
     }
@@ -90,6 +83,11 @@ class Model {
             weatherII = getRetrofit().create(WeatherII.class);
         }
         return weatherII;
+    }
+
+    void getRawImage(WeatherData data, Action1<ResponseBody> onResult, Action1<Throwable> onFailure) {
+        Func0< ResponseBody> func = () -> getRawImage(data);
+        runFunc(func, onResult, onFailure);
     }
 
     ResponseBody getRawImage(WeatherData data) {
