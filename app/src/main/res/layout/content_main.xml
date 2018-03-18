@@ -1,98 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ollu.dp.ua.weather_test.MainActivity"
-    tools:showIn="@layout/activity_main">
+<layout>
 
-    <FrameLayout
-        android:id="@+id/load_bar"
+    <data>
+
+        <variable
+            name="mvvm"
+            type="ollu.dp.ua.weather_test.MainActivityMVVM" />
+
+        <import
+            alias="view"
+            type="android.view.View" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#50000000"
-        android:visibility="invisible"
-        tools:visibility="visible">
+        tools:context="ollu.dp.ua.weather_test.MainActivity"
+        tools:showIn="@layout/activity_main">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/load_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#50000000"
+            android:visibility="@{mvvm.showProgress ? view.VISIBLE : view.INVISIBLE}"
+            tools:visibility="visible">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/city_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            tools:text="Харьков" />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:contentDescription="@string/content_description"
-                android:scaleType="centerCrop"
-                tools:src="@drawable/i01d" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/temp"
-                tools:text="+100°" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            tools:ignore="RtlHardcoded">
-
-            <TextView
-                android:id="@+id/temp_min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/min_max_margin"
-                android:layout_marginRight="@dimen/min_max_margin"
-                android:textSize="@dimen/min_max_temp"
-                tools:text="+50°" />
-
-            <TextView
-                android:id="@+id/temp_max"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/min_max_temp"
-                tools:text="+100°" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/weather_descr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/margin"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
-            android:textAllCaps="false"
-            android:textSize="@dimen/min_max_temp"
-            tools:text="Солнечно" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{mvvm.cityName}"
+                android:textSize="30sp"
+                tools:text="Харьков" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    url="@{mvvm.url}"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="@string/content_description"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/i01d" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/degree_float_format(mvvm.temp)}"
+                    android:textSize="@dimen/temp"
+                    tools:text="+100°" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                tools:ignore="RtlHardcoded">
+
+                <TextView
+                    android:id="@+id/temp_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/min_max_margin"
+                    android:layout_marginRight="@dimen/min_max_margin"
+                    android:text="@{@string/degree_float_format(mvvm.tempMin)}"
+                    android:textSize="@dimen/min_max_temp"
+                    tools:text="+50°" />
+
+                <TextView
+                    android:id="@+id/temp_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/degree_float_format(mvvm.tempMax)}"
+                    android:textSize="@dimen/min_max_temp"
+                    tools:text="+100°" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/weather_descr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:text="@{mvvm.weatherDescr}"
+                android:textAllCaps="false"
+                android:textSize="@dimen/min_max_temp"
+                tools:text="Солнечно" />
 
 
-    </LinearLayout>
-</FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+</layout>

@@ -1,6 +1,5 @@
 package ollu.dp.ua.weather_test;
 
-import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import java.io.IOException;
@@ -36,8 +35,8 @@ class Model {
         return model;
     }
 
-    static Uri getImageUri(WeatherData data) {
-        return Uri.parse("http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
+    static String getImageUrl(WeatherData data) {
+        return "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
     }
 
     private static Retrofit getRetrofit() {
@@ -86,7 +85,7 @@ class Model {
     }
 
     void getRawImage(WeatherData data, Action1<ResponseBody> onResult, Action1<Throwable> onFailure) {
-        Func0< ResponseBody> func = () -> getRawImage(data);
+        Func0<ResponseBody> func = () -> getRawImage(data);
         runFunc(func, onResult, onFailure);
     }
 

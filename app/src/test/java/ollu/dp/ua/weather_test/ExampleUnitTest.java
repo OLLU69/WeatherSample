@@ -23,7 +23,7 @@ public class ExampleUnitTest {
         assertNotNull(data.main.temp_min);
         assertNotNull(data.main.temp_max);
         assertNotNull(data.weather[0].description);
-//        assertNotNull(Model.getImageUri(data));
+        assertNotNull(Model.getImageUrl(data));
         assertNotNull(Model.getInstance().getRawImage(data));
 
         assertNotNull(data.weather[0].description);
