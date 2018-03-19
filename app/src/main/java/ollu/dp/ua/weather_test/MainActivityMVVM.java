@@ -1,5 +1,6 @@
 package ollu.dp.ua.weather_test;
 
+import android.databinding.BaseObservable;
 import android.databinding.ObservableBoolean;
 
 /**
@@ -7,7 +8,7 @@ import android.databinding.ObservableBoolean;
  * Created by Лукащук Олег(master) on 18.03.18.
  */
 
-public class MainActivityMVVM {
+public class MainActivityMVVM extends BaseObservable {
     private static MainActivityMVVM vModel;
     public String cityName;
     public float temp;
@@ -63,14 +64,12 @@ public class MainActivityMVVM {
         tempMax = data.main.temp_max;
         weatherDescr = String.valueOf(data.weather[0].description);
         url = Model.getImageUrl(data);
-        viewer.sync();
+        notifyChange();
     }
 
 
     public interface MVVMViewer {
         @SuppressWarnings("SameParameterValue")
         void showMessage(String message);
-
-        void sync();
     }
 }

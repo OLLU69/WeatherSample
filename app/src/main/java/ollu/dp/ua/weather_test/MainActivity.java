@@ -1,19 +1,14 @@
 package ollu.dp.ua.weather_test;
 
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 
 import ollu.dp.ua.weather_test.databinding.ActivityMainBinding;
 import ollu.dp.ua.weather_test.event_bus.BusFactory;
@@ -24,13 +19,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVVM.
     public static final String CITY_NAME = "city_name";
     public static final int REQUEST_CITY = 100;
     private ActivityMainBinding binding;
-
-    @BindingAdapter("url")
-    public static void imageUrlBinding(ImageView view, String url) {
-        if (url == null) return;
-        Uri uri = Uri.parse(url);
-        Glide.with(view).load(uri).into(view);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +87,4 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVVM.
 //        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Snackbar.make(findViewById(R.id.root_layout), message, Toast.LENGTH_SHORT).show();
     }
-
-    @Override
-    public void sync() {
-        binding.invalidateAll();
-    }
-
 }
