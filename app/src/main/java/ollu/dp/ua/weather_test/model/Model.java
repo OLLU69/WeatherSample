@@ -1,4 +1,4 @@
-package ollu.dp.ua.weather_test;
+package ollu.dp.ua.weather_test.model;
 
 import android.support.annotation.Nullable;
 
@@ -23,19 +23,19 @@ import rx.schedulers.Schedulers;
  * Created by Лукащук Олег(master) on 06.03.18.
  */
 
-class Model {
+public class Model {
     private static Model model;
     private static Retrofit retrofit;
     private WeatherII weatherII;
 
-    static Model getInstance() {
+    public static Model getInstance() {
         if (model == null) {
             model = new Model();
         }
         return model;
     }
 
-    static String getImageUrl(WeatherData data) {
+    public static String getImageUrl(WeatherData data) {
         return "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
     }
 
@@ -49,7 +49,7 @@ class Model {
         return retrofit;
     }
 
-    void getWeatherData(int cityId, Action1<WeatherData> onResult, Action1<Throwable> onFailure) {
+    public void getWeatherData(int cityId, OnResult<WeatherData> onResult, OnFailure onFailure) {
 
         Func0<WeatherData> func = () -> {
             try {
@@ -63,13 +63,13 @@ class Model {
     }
 
     @Nullable
-    WeatherData getWeatherData(int cityId) throws IOException {
+    public WeatherData getWeatherData(int cityId) throws IOException {
         Call<WeatherData> dataCall = getWeatherII().getData(cityId);
         Response<WeatherData> response = dataCall.execute();
         return response.body();
     }
 
-    private <T> void runFunc(Func0<T> func, Action1<T> onResult, Action1<Throwable> onFailure) {
+    private <T> void runFunc(Func0<T> func, OnResult<T> onResult, OnFailure onFailure) {
         Observable
                 .<T>create(subscriber -> subscriber.onNext(func.call()))
                 .subscribeOn(Schedulers.io())
@@ -84,12 +84,12 @@ class Model {
         return weatherII;
     }
 
-    void getRawImage(WeatherData data, Action1<ResponseBody> onResult, Action1<Throwable> onFailure) {
+    public void getRawImage(WeatherData data, OnResult<ResponseBody> onResult, OnFailure onFailure) {
         Func0<ResponseBody> func = () -> getRawImage(data);
         runFunc(func, onResult, onFailure);
     }
 
-    ResponseBody getRawImage(WeatherData data) {
+    public ResponseBody getRawImage(WeatherData data) {
         Call<ResponseBody> responseBodyCall = getWeatherII().getRawImage(data.weather[0].icon);
         try {
             Response<ResponseBody> response = responseBodyCall.execute();
@@ -109,5 +109,11 @@ class Model {
 
         @GET("http://openweathermap.org/img/w/{icon}.png")
         Call<ResponseBody> getRawImage(@Path("icon") String icon);
+    }
+
+    public interface OnResult<T> extends Action1<T> {
+    }
+
+    public interface OnFailure extends Action1<Throwable> {
     }
 }

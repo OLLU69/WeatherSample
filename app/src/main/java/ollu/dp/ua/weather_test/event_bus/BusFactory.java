@@ -18,7 +18,7 @@ public class BusFactory {
      * Возвращает экземпляр интерфейса {@link EventBus}
      */
     private static EventBus<Event> newInstance() {
-        RxEventBus bus = new RxEventBus<Event>();
+        RxEventBus<Event> bus = new RxEventBus<>();
         bus.setScheduler(AndroidSchedulers.mainThread());
         return bus;
     }

@@ -3,6 +3,9 @@ package ollu.dp.ua.weather_test;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableBoolean;
 
+import ollu.dp.ua.weather_test.model.Model;
+import ollu.dp.ua.weather_test.model.WeatherData;
+
 /**
  * ----
  * Created by Лукащук Олег(master) on 18.03.18.

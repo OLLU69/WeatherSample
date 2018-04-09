@@ -2,7 +2,11 @@ package ollu.dp.ua.weather_test;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import ollu.dp.ua.weather_test.model.Model;
+import ollu.dp.ua.weather_test.model.WeatherData;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -11,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() throws Exception {
+    public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
 
@@ -19,9 +23,7 @@ public class ExampleUnitTest {
     public void weatherTest() throws Exception {
         WeatherData data = Model.getInstance().getWeatherData(706483);
         assertNotNull(data);
-        assertNotNull( data.main.temp);
-        assertNotNull(data.main.temp_min);
-        assertNotNull(data.main.temp_max);
+        assertNotNull(data.main);
         assertNotNull(data.weather[0].description);
         assertNotNull(Model.getImageUrl(data));
         assertNotNull(Model.getInstance().getRawImage(data));

@@ -1,4 +1,4 @@
-package ollu.dp.ua.weather_test;
+package ollu.dp.ua.weather_test.event_bus;
 
 import android.support.annotation.NonNull;
 
@@ -11,6 +11,7 @@ import java.util.Date;
  * Класс на основе JSONObject, дополненный возможностью хранить объект типа Date.
  */
 
+@SuppressWarnings("unused")
 public class Params extends JSONObject {
 
     @Override
@@ -44,10 +45,11 @@ public class Params extends JSONObject {
     }
 
     public JSONObject put(@NonNull String name, Date value) {
-        return put(name, new Long(value.getTime()));
+        return put(name, Long.valueOf(value.getTime()));
     }
 
-    public String getString(@NonNull String name, String defaultValue) {
+    @SuppressWarnings("SameParameterValue")
+    private String getString(@NonNull String name, String defaultValue) {
         try {
             return super.getString(name);
         } catch (JSONException e) {
