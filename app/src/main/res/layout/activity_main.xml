@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="mvvm"
-            type="ollu.dp.ua.weather_test.MainActivityMVVM" />
+            name="vm"
+            type="ollu.dp.ua.weather_test.MainActivityVM" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,7 +24,7 @@
 
         <include
             layout="@layout/content_main"
-            bind:mvvm="@{mvvm}" />
+            bind:vm="@{vm}" />
 
     </LinearLayout>
 </layout>

@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="mvvm"
-            type="ollu.dp.ua.weather_test.MainActivityMVVM" />
+            name="vm"
+            type="ollu.dp.ua.weather_test.MainActivityVM" />
 
         <import
             alias="view"
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#50000000"
-            android:visibility="@{mvvm.showProgress ? view.VISIBLE : view.INVISIBLE}"
+            android:visibility="@{vm.showProgress ? view.VISIBLE : view.INVISIBLE}"
             tools:visibility="visible">
 
             <ProgressBar
@@ -44,7 +44,7 @@
                 android:id="@+id/city_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{mvvm.cityName}"
+                android:text="@{vm.bindData.cityName}"
                 android:textSize="30sp"
                 tools:text="Харьков" />
 
@@ -54,7 +54,7 @@
 
                 <ImageView
                     android:id="@+id/icon"
-                    url="@{mvvm.url}"
+                    url="@{vm.bindData.url}"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:contentDescription="@string/content_description"
@@ -70,7 +70,7 @@
                     android:id="@+id/temp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/degree_float_format(mvvm.temp)}"
+                    android:text="@{@string/degree_float_format(vm.bindData.temp)}"
                     android:textSize="@dimen/temp"
                     tools:text="+100°" />
             </LinearLayout>
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/min_max_margin"
                     android:layout_marginRight="@dimen/min_max_margin"
-                    android:text="@{@string/degree_float_format(mvvm.tempMin)}"
+                    android:text="@{@string/degree_float_format(vm.bindData.tempMin)}"
                     android:textSize="@dimen/min_max_temp"
                     tools:text="+50°" />
 
@@ -95,7 +95,7 @@
                     android:id="@+id/temp_max"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/degree_float_format(mvvm.tempMax)}"
+                    android:text="@{@string/degree_float_format(vm.bindData.tempMax)}"
                     android:textSize="@dimen/min_max_temp"
                     tools:text="+100°" />
             </LinearLayout>
@@ -107,7 +107,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/margin"
                 android:layout_marginRight="@dimen/margin"
-                android:text="@{mvvm.weatherDescr}"
+                android:text="@{vm.bindData.weatherDescr}"
                 android:textAllCaps="false"
                 android:textSize="@dimen/min_max_temp"
                 tools:text="Солнечно" />
