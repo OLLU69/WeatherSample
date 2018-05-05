@@ -1,4 +1,4 @@
-package ollu.dp.ua.weather_test;
+package ollu.dp.ua.weather;
 
 import android.databinding.BindingAdapter;
 import android.net.Uri;

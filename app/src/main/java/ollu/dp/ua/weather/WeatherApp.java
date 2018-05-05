@@ -1,12 +1,12 @@
-package ollu.dp.ua.weather_test;
+package ollu.dp.ua.weather;
 
 import android.app.Application;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ollu.dp.ua.weather_test.event_bus.BusFactory;
-import ollu.dp.ua.weather_test.event_bus.Event;
+import ollu.dp.ua.weather.event_bus.BusFactory;
+import ollu.dp.ua.weather.event_bus.Event;
 
 /**
  * ----

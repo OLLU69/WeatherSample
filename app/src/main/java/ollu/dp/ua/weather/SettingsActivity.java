@@ -1,4 +1,4 @@
-package ollu.dp.ua.weather_test;
+package ollu.dp.ua.weather;
 
 import android.content.Intent;
 import android.os.Bundle;

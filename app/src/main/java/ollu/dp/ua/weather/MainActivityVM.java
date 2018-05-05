@@ -1,4 +1,4 @@
-package ollu.dp.ua.weather_test;
+package ollu.dp.ua.weather;
 
 import android.arch.lifecycle.ViewModel;
 import android.databinding.BaseObservable;
@@ -6,8 +6,8 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.Nullable;
 
-import ollu.dp.ua.weather_test.model.Model;
-import ollu.dp.ua.weather_test.model.WeatherData;
+import ollu.dp.ua.weather.model.Model;
+import ollu.dp.ua.weather.model.WeatherData;
 
 /**
  * ----

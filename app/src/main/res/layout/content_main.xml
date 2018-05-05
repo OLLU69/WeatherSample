@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="ollu.dp.ua.weather_test.MainActivityVM" />
+            type="ollu.dp.ua.weather.MainActivityVM" />
 
         <import
             alias="view"
@@ -16,7 +16,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="ollu.dp.ua.weather_test.MainActivity"
+        tools:context="ollu.dp.ua.weather.MainActivity"
         tools:showIn="@layout/activity_main">
 
         <FrameLayout

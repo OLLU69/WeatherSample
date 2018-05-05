@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ollu.dp.ua.weather_test">
+    package="ollu.dp.ua.weather">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ollu.dp.ua.weather_test.MainActivity"
+            android:name="ollu.dp.ua.weather.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ollu.dp.ua.weather_test.SettingsActivity"
+            android:name="ollu.dp.ua.weather.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

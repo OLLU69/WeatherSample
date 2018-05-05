@@ -1,4 +1,4 @@
-package ollu.dp.ua.weather_test.model;
+package ollu.dp.ua.weather.model;
 
 import android.support.annotation.Nullable;
 

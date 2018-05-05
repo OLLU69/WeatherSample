@@ -1,4 +1,4 @@
-package ollu.dp.ua.weather_test.event_bus;
+package ollu.dp.ua.weather.event_bus;
 
 
 import android.support.annotation.NonNull;

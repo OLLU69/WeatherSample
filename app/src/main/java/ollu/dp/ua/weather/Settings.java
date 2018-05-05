@@ -1,8 +1,7 @@
-package ollu.dp.ua.weather_test;
+package ollu.dp.ua.weather;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.TextView;
 
 /**
  * ----

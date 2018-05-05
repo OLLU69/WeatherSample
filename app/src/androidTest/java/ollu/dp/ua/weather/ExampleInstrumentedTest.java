@@ -1,4 +1,4 @@
-package ollu.dp.ua.weather_test;
+package ollu.dp.ua.weather;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ollu.dp.ua.weather_test.model.Model;
-import ollu.dp.ua.weather_test.model.WeatherData;
+import ollu.dp.ua.weather.model.Model;
+import ollu.dp.ua.weather.model.WeatherData;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
