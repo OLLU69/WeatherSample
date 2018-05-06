@@ -21,7 +21,7 @@ import static org.junit.Assert.fail;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class WeatherJavaInstrumentedTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
@@ -35,10 +35,13 @@ public class ExampleInstrumentedTest {
         WeatherData data = Model.getInstance().getWeatherData(706483);
         assertNotNull(data);
         assertNotNull(data.main);
-        assertNotNull(data.weather[0].description);
+        if (data.weather == null) {
+            fail();
+        } else {
+            assertNotNull(data.weather[0].description);
+        }
         assertNotNull(Model.getImageUrl(data));
         assertNotNull(Model.getInstance().getRawImage(data));
-        assertNotNull(data.weather[0].description);
         System.out.println("Test Ok");
     }
 
@@ -48,7 +51,11 @@ public class ExampleInstrumentedTest {
         Model.getInstance().getWeatherData(706483, (WeatherData data) -> {
             assertNotNull(data);
             assertNotNull(data.main);
-            assertNotNull(data.weather[0].description);
+            if (data.weather == null) {
+                fail();
+            } else {
+                assertNotNull(data.weather[0].description);
+            }
             assertNotNull(Model.getImageUrl(data));
             Model.getInstance().getRawImage(data,
                     responseBody -> {
@@ -59,7 +66,6 @@ public class ExampleInstrumentedTest {
                         fail();
                         notifyEnd();
                     });
-            assertNotNull(data.weather[0].description);
         }, throwable -> {
             System.out.println("ERROR:" + throwable.getMessage());
             fail();

@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         binding.vm?.showMessage?.addOnPropertyChangedCallback(onMessage)
-        BusFactory.getInstance().subscribe(this, Action1 { e ->
+        BusFactory.instance.subscribe(this, Action1 { e ->
             println(e.name)
             binding.vm?.loadData()
 
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        BusFactory.getInstance().unsubscribe(this)
+        BusFactory.instance.unsubscribe(this)
 
         binding.vm?.showMessage?.removeOnPropertyChangedCallback(onMessage)
         super.onPause()
