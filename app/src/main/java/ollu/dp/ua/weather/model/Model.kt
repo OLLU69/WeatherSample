@@ -8,10 +8,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
-import rx.schedulers.Schedulers
 import java.io.IOException
 
 /**
@@ -27,7 +24,6 @@ class Model {
     private var weatherII: WeatherII? = null
 
     fun getWeatherData(cityId: Int, onResult: OnResult<WeatherData?>, onFailure: OnFailure) {
-
         val func = {
             try {
                 getWeatherData(cityId)
@@ -39,18 +35,6 @@ class Model {
 
     }
 
-    fun getWeatherData(cityId: Int, onResult: OnResult<WeatherData?>) {
-        val func = {
-            try {
-                getWeatherData(cityId)
-            } catch (e: IOException) {
-                throw Error(e)
-            }
-        }
-        runFunc1(func, onResult)
-
-    }
-
     @Throws(IOException::class)
     fun getWeatherData(cityId: Int): WeatherData? {
         val dataCall = getWeatherII().getData(cityId)
@@ -58,7 +42,7 @@ class Model {
         return response.body()
     }
 
-    private fun <T> runFunc1(func: () -> T, onResult: OnResult<T>) {
+    private fun <T> runFunc(func: () -> T, onResult: OnResult<T>, onFailure: OnFailure) {
         launch(UI) {
             try {
                 val data = async {
@@ -67,17 +51,9 @@ class Model {
                 onResult.call(data)
             } catch (e: Exception) {
                 e.printStackTrace()
-                onResult.call(null)
+                onFailure.call(e)
             }
         }
-    }
-
-    private fun <T> runFunc(func: () -> T, onResult: OnResult<T>, onFailure: OnFailure) {
-        Observable
-                .create<T> { subscriber -> subscriber.onNext(func()) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onResult, onFailure)
     }
 
     private fun getWeatherII(): WeatherII {

@@ -69,4 +69,20 @@ class ExampleUnitTest {
         }
         println("after runBlocking result $i")
     }
+
+    @Test
+    fun coroutineTest() {
+        runBlocking {
+            val list = (1..1_000_000).map {
+                async {
+                    delay(1000)
+                    it
+                }
+            }
+            delay(1000)
+            val sum = list.sumBy { it.await() }
+            println("Sum: $sum")
+            assertEquals(1784293664, sum)
+        }
+    }
 }

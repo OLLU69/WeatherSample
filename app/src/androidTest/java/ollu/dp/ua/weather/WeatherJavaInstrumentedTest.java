@@ -27,7 +27,7 @@ public class WeatherJavaInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("ollu.dp.ua.weathertest", appContext.getPackageName());
+        assertEquals("ollu.dp.ua.weather", appContext.getPackageName());
     }
 
     @Test
@@ -62,15 +62,8 @@ public class WeatherJavaInstrumentedTest {
                         Assert.assertNotNull(responseBody);
                         notifyEnd();
                     },
-                    t -> {
-                        fail();
-                        notifyEnd();
-                    });
-        }, throwable -> {
-            System.out.println("ERROR:" + throwable.getMessage());
-            fail();
-            notifyEnd();
-        });
+                    t -> fail());
+        }, t -> fail());
         wait(60000);
     }
 

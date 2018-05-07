@@ -40,13 +40,13 @@ class WeatherData {
         var temp: Float = 0.toFloat()
         var temp_min: Float = 0.toFloat()
         var temp_max: Float = 0.toFloat()
-        var pressure: Int = 0
+        var pressure: Float = 0.toFloat()
         var humidity: Int = 0
     }
 
     class Wind {
         var speed: Float = 0.toFloat()
-        var deg: Int = 0
+        var deg: Float = 0.toFloat()
     }
 
     class Clouds { //Cloudiness %

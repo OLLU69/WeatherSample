@@ -4,8 +4,7 @@ import android.support.test.runner.AndroidJUnit4
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import ollu.dp.ua.weather.model.*
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.*
@@ -51,6 +50,10 @@ class CoroutineInstrumentedTest {
                 testData(weatherData)
                 passed = true
                 println("Данные получены!")
+            }
+                    , OnFailure {
+                println("Ошибка получения  данных!")
+                fail()
             })
             delay(10000)
             println("Данные должны быть получены!")
