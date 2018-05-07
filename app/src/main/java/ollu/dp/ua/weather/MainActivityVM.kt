@@ -50,6 +50,7 @@ class MainActivityVM : ViewModel() {
             showProgress.set(false)
         }, OnFailure {
             showMessage.set("Ошибка получения данных")
+            bindData(null)
             showProgress.set(false)
         })
 

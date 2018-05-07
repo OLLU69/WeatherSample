@@ -49,7 +49,7 @@ class Model {
                     func()
                 }.await()
                 onResult.call(data)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 e.printStackTrace()
                 onFailure.call(e)
             }
