@@ -1,5 +1,6 @@
 package ollu.dp.ua.weather
 
+import kotlinx.coroutines.experimental.*
 import ollu.dp.ua.weather.model.Model
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -27,5 +28,45 @@ class ExampleUnitTest {
         assertNotNull(data?.let { Model.instance.getRawImage(it) })
 
         assertNotNull(data?.weather!![0].description)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun asyncTest() {
+        println("before runBlocking")
+        runBlocking(CommonPool) {
+            println("before delay")
+            delay(5000)
+            println("after delay")
+        }
+        println("after runBlocking")
+    }
+
+    @Test
+    fun exceptionTest() {
+        println("before runBlocking")
+        val i = runBlocking(CommonPool) {
+            println("before delay")
+            delay(5000)
+            println("after delay")
+            suspend {
+                val asyncResult = async {
+                    @Suppress("ConstantConditionIf")
+                    if (true) {
+                        throw Exception("Test Exception")
+                    }
+                    100
+                }
+                try {
+
+                    val result = asyncResult.await()
+                    println(result)
+                } catch (e: Exception) {
+                    println(e.message)
+                }
+            }()
+            100
+        }
+        println("after runBlocking result $i")
     }
 }

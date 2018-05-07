@@ -1,5 +1,8 @@
 package ollu.dp.ua.weather.model
 
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -36,11 +39,37 @@ class Model {
 
     }
 
+    fun getWeatherData(cityId: Int, onResult: OnResult<WeatherData?>) {
+        val func = {
+            try {
+                getWeatherData(cityId)
+            } catch (e: IOException) {
+                throw Error(e)
+            }
+        }
+        runFunc1(func, onResult)
+
+    }
+
     @Throws(IOException::class)
     fun getWeatherData(cityId: Int): WeatherData? {
         val dataCall = getWeatherII().getData(cityId)
         val response = dataCall.execute()
         return response.body()
+    }
+
+    private fun <T> runFunc1(func: () -> T, onResult: OnResult<T>) {
+        launch(UI) {
+            try {
+                val data = async {
+                    func()
+                }.await()
+                onResult.call(data)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                onResult.call(null)
+            }
+        }
     }
 
     private fun <T> runFunc(func: () -> T, onResult: OnResult<T>, onFailure: OnFailure) {
@@ -103,11 +132,11 @@ class Model {
             }
 
         @JvmStatic
-        fun getImageUrl(data: WeatherData?): String {
+        fun getImageUrl(data: WeatherData?): String? {
             return if (data?.weather?.get(0)?.icon != null) {
                 "http://openweathermap.org/img/w/${data.weather?.get(0)?.icon ?: ""}.png"
             } else {
-                ""
+                null
             }
         }
 

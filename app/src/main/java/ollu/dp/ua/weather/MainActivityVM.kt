@@ -14,7 +14,6 @@ class MainActivityVM : ViewModel() {
     var icon: String? = null
     var showProgress = ObservableBoolean(false)
     var bindData = BindData()
-    private var data: WeatherData? = null
     val showMessage: ObservableField<String> = object : ObservableField<String>() {
         private var mValue: String? = null
 
@@ -40,36 +39,26 @@ class MainActivityVM : ViewModel() {
         Settings.lastCityId = cityId
         Settings.lastCityName = cityName
         showProgress.set(true)
-        val model = Model.instance
-        model.getWeatherData(cityId, OnResult { _data ->
-            _data?.localName = cityName
-            data = _data
-            bindData(data)
-            showProgress.set(false)
-            showMessage.set("Данные получены!")
-        }, OnFailure { throwable ->
-            throwable.printStackTrace()
-            showMessage.set("Нет соединения с интернетом")
+        Model.instance.getWeatherData(cityId, OnResult { weatherData: WeatherData? ->
+            weatherData?.localName = cityName
+            bindData(weatherData)
+            showMessage.set(if (weatherData == null) {
+                "Ошибка получения данных"
+            } else {
+                "Данные получены!"
+            })
             showProgress.set(false)
         })
+
     }
 
     private fun bindData(data: WeatherData?) {
-//        if (data == null) {
-//            bindData.cityName = "------"
-//            bindData.temp = 0.toFloat()
-//            bindData.tempMin = 0.toFloat()
-//            bindData.tempMax = 0.toFloat()
-//            bindData.weatherDescr = "-------"
-//            bindData.url = ""
-//        } else {
         bindData.cityName = data?.localName ?: "-----"
         bindData.temp = data?.main?.temp ?: 0.toFloat()
         bindData.tempMin = data?.main?.temp_min ?: 0.0f
         bindData.tempMax = data?.main?.temp_max ?: 0.0f
-        bindData.weatherDescr = data?.weather?.get(0)?.description.toString()
+        bindData.weatherDescr = data?.weather?.get(0)?.description ?: "-----"
         bindData.url = Model.getImageUrl(data)
-//        }
         bindData.notifyChange()
     }
 
