@@ -32,8 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val vm = ViewModelProviders.of(this).get<MainActivityVM>(MainActivityVM::class.java)
-        binding.vm = vm
+        binding.vm = ViewModelProviders.of(this).get(MainActivityVM::class.java)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)

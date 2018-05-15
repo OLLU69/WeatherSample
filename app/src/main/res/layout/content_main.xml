@@ -112,7 +112,6 @@
                 android:textSize="@dimen/min_max_temp"
                 tools:text="Солнечно" />
 
-
         </LinearLayout>
     </FrameLayout>
 </layout>
