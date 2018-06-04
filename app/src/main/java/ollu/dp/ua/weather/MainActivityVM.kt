@@ -1,31 +1,22 @@
 package ollu.dp.ua.weather
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.databinding.*
-import ollu.dp.ua.weather.model.*
+import android.databinding.BaseObservable
+import android.databinding.ObservableBoolean
+import ollu.dp.ua.weather.model.Model
+import ollu.dp.ua.weather.model.WeatherData
 
 /**
  * ----
  * Created by Лукащук Олег(master) on 18.03.18.
  */
 
-//MainActivityVM - view model
 class MainActivityVM : ViewModel() {
     var icon: String? = null
     var showProgress = ObservableBoolean(false)
     var bindData = BindData()
-    val showMessage: ObservableField<String> = object : ObservableField<String>() {
-        private var mValue: String? = null
-
-        override fun set(value: String) {
-            mValue = value
-            notifyChange()
-        }
-
-        override fun get(): String? {
-            return mValue
-        }
-    }
+    val showMessage = MutableLiveData<String>()
 
     init {
         loadData()
@@ -39,17 +30,17 @@ class MainActivityVM : ViewModel() {
         Settings.lastCityId = cityId
         Settings.lastCityName = cityName
         showProgress.set(true)
-        Model.instance.getWeatherData(cityId, OnResult { weatherData: WeatherData? ->
+        Model.instance.getWeatherData(cityId, { weatherData: WeatherData? ->
             weatherData?.localName = cityName
             bindData(weatherData)
-            showMessage.set(if (weatherData == null) {
+            showMessage.value = if (weatherData == null) {
                 "Ошибка получения данных"
             } else {
                 "Данные получены!"
-            })
+            }
             showProgress.set(false)
-        }, OnFailure {
-            showMessage.set("Ошибка получения данных")
+        }, {
+            showMessage.value = "Ошибка получения данных"
             bindData(null)
             showProgress.set(false)
         })

@@ -8,7 +8,6 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import rx.functions.Action1
 import java.io.IOException
 
 /**
@@ -16,13 +15,12 @@ import java.io.IOException
  * Created by Лукащук Олег(master) on 06.03.18.
  */
 
-typealias OnResult<T> = Action1<T>
+typealias OnResult<T> = (T) -> Unit
 
-typealias OnFailure = Action1<Throwable>
+typealias OnFailure = (t: Throwable) -> Unit
 
 class Model {
     private var weatherII: WeatherII? = null
-
     fun getWeatherData(cityId: Int, onResult: OnResult<WeatherData?>, onFailure: OnFailure) {
         val func = {
             try {
@@ -48,10 +46,10 @@ class Model {
                 val data = async {
                     func()
                 }.await()
-                onResult.call(data)
+                onResult(data)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                onFailure.call(e)
+                onFailure(e)
             }
         }
     }

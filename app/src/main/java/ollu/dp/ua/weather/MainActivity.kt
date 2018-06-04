@@ -1,18 +1,18 @@
 package ollu.dp.ua.weather
 
 import android.app.Activity
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.*
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.Toast
+import ollu.dp.ua.weather.WeatherApp.Companion.timeEvent
 import ollu.dp.ua.weather.databinding.ActivityMainBinding
-import ollu.dp.ua.weather.event_bus.BusFactory
-import rx.functions.Action1
 
 /**
  * ----
@@ -20,22 +20,20 @@ import rx.functions.Action1
  */
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val onMessage = object : Observable.OnPropertyChangedCallback() {
-        override fun onPropertyChanged(sender: Observable, propertyId: Int) {
-
-            @Suppress("UNCHECKED_CAST")
-            showMessage((sender as ObservableField<String>).get())
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.vm = ViewModelProviders.of(this).get(MainActivityVM::class.java)
+        binding.vm?.showMessage?.observe(this, Observer(this@MainActivity::showMessage))
+        timeEvent.observe(this, Observer {
+            binding.vm?.loadData()
+
+        })
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
+        binding.vm = ViewModelProviders.of(this).get(MainActivityVM::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -62,30 +60,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        binding.vm?.showMessage?.addOnPropertyChangedCallback(onMessage)
-        BusFactory.instance.subscribe(this, Action1 { e ->
-            println(e.name)
-            binding.vm?.loadData()
-
-        }, WeatherApp.TIME_EVENT)
-    }
-
-    override fun onPause() {
-        BusFactory.instance.unsubscribe(this)
-
-        binding.vm?.showMessage?.removeOnPropertyChangedCallback(onMessage)
-        super.onPause()
-    }
-
     private fun navigateToSettings() {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivityForResult(intent, REQUEST_CITY)
     }
 
-    fun showMessage(message: String?) {
+    private fun showMessage(message: String?) {
         //        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Snackbar.make(findViewById<View>(R.id.root_layout), message!!, Toast.LENGTH_SHORT).show()
     }

@@ -3,7 +3,8 @@ package ollu.dp.ua.weather
 import android.support.test.runner.AndroidJUnit4
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import ollu.dp.ua.weather.model.*
+import ollu.dp.ua.weather.model.Model
+import ollu.dp.ua.weather.model.WeatherData
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,12 +47,12 @@ class CoroutineInstrumentedTest {
     fun asyncCoroutineWeatherTest() {
         var passed = false
         runBlocking(UI) {
-            Model.instance.getWeatherData(CITY_ID, OnResult { weatherData ->
+            Model.instance.getWeatherData(CITY_ID, { weatherData ->
                 testData(weatherData)
                 passed = true
                 println("Данные получены!")
             }
-                    , OnFailure {
+                    , {
                 println("Ошибка получения  данных!")
                 fail()
             })
@@ -94,7 +95,7 @@ class CoroutineInstrumentedTest {
     }
 
     private val testTimer = Timer()
-    var task: TimerTask? = null
+    private var task: TimerTask? = null
 
     private fun runTestTimer() {
         task = object : TimerTask() {

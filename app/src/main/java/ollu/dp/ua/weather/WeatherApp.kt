@@ -1,8 +1,7 @@
 package ollu.dp.ua.weather
 
 import android.app.Application
-import ollu.dp.ua.weather.event_bus.BusFactory
-import ollu.dp.ua.weather.event_bus.Event
+import android.arch.lifecycle.MutableLiveData
 import java.util.*
 
 /**
@@ -24,15 +23,15 @@ class WeatherApp : Application() {
         timer = Timer(WEATHER_TIMER)
         timer!!.schedule(object : TimerTask() {
             override fun run() {
-                val event = Event(TIME_EVENT)
-                BusFactory.instance.send(event)
+                timeEvent.postValue(true)
             }
         }, HOUR, HOUR)
     }
 
     companion object {
         const val WEATHER_TIMER = "weatherTimer"
-        const val TIME_EVENT = "timeEvent"
+        //        private const val HOUR = (1000 * 10).toLong()
         private const val HOUR = (1000 * 60 * 60).toLong()
+        val timeEvent = MutableLiveData<Boolean>()
     }
 }

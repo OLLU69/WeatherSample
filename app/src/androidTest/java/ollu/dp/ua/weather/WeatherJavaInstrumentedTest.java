@@ -61,9 +61,18 @@ public class WeatherJavaInstrumentedTest {
                     responseBody -> {
                         Assert.assertNotNull(responseBody);
                         notifyEnd();
+                        return null;
                     },
-                    t -> fail());
-        }, t -> fail());
+                    t -> {
+                        fail();
+                        return null;
+                    }
+            );
+            return null;
+        }, t -> {
+            fail();
+            return null;
+        });
         wait(60000);
     }
 
