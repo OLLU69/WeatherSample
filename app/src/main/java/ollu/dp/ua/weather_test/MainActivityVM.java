@@ -1,10 +1,10 @@
 package ollu.dp.ua.weather_test;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
-import android.support.annotation.Nullable;
 
 import ollu.dp.ua.weather_test.model.Model;
 import ollu.dp.ua.weather_test.model.WeatherData;
@@ -16,25 +16,11 @@ import ollu.dp.ua.weather_test.model.WeatherData;
 
 //MainActivityVM - view model
 public class MainActivityVM extends ViewModel {
+    private final MutableLiveData<String> showMessage = new MutableLiveData<>();
     public String icon;
     public ObservableBoolean showProgress = new ObservableBoolean(false);
     public BindData bindData = new BindData();
     private WeatherData data;
-    private ObservableField<String> showMessage = new ObservableField<String>() {
-        private String mValue;
-
-        @Override
-        public void set(String value) {
-            mValue = value;
-            notifyChange();
-        }
-
-        @Nullable
-        @Override
-        public String get() {
-            return mValue;
-        }
-    };
 
     public MainActivityVM() {
         loadData();
@@ -54,10 +40,10 @@ public class MainActivityVM extends ViewModel {
             data = _data;
             bindData(data);
             showProgress.set(false);
-            showMessage.set("Данные получены!");
+            showMessage.setValue("Данные получены!");
         }, throwable -> {
             throwable.printStackTrace();
-            showMessage.set("Нет соединения с интернетом");
+            showMessage.setValue("Нет соединения с интернетом");
             showProgress.set(false);
         });
     }
@@ -73,7 +59,7 @@ public class MainActivityVM extends ViewModel {
         bindData.notifyChange();
     }
 
-    public ObservableField<String> getShowMessage() {
+    public LiveData<String> getShowMessage() {
         return showMessage;
     }
 

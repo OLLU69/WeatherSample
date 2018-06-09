@@ -1,12 +1,11 @@
 package ollu.dp.ua.weather_test;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-import ollu.dp.ua.weather_test.event_bus.BusFactory;
-import ollu.dp.ua.weather_test.event_bus.Event;
 
 /**
  * ----
@@ -14,10 +13,14 @@ import ollu.dp.ua.weather_test.event_bus.Event;
  */
 
 public class WeatherApp extends Application {
-    public static final String WEATHER_TIMER = "weatherTimer";
-    public static final String TIME_EVENT = "timeEvent";
+    private static final String WEATHER_TIMER = "weatherTimer";
+    private static final MutableLiveData<Boolean> timeEvent = new MutableLiveData<>();
     private static final long HOUR = 1000 * 60 * 60;
     private Timer timer;
+
+    public static LiveData<Boolean> getTimeEvent() {
+        return timeEvent;
+    }
 
     @Override
     public void onCreate() {
@@ -34,8 +37,7 @@ public class WeatherApp extends Application {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Event event = new Event(TIME_EVENT);
-                BusFactory.getInstance().send(event);
+                timeEvent.postValue(true);
             }
         }, HOUR, HOUR);
     }
