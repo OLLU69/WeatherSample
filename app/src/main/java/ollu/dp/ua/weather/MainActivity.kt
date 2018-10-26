@@ -51,10 +51,10 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CITY) {
-
+                data ?: return
                 binding.vm?.showCityWeather(data.getIntExtra(CITY_ID, 0), data.getStringExtra(CITY_NAME))
             }
         }

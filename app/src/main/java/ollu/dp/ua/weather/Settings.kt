@@ -12,17 +12,17 @@ internal object Settings {
 
     private const val LAST_CITY_ID = "LAST_CITY_ID"
     private const val LAST_CITY_NAME = "LAST_CITY_NAME"
-    private var main: SharedPreferences? = null
+    private var preferences: SharedPreferences? = null
 
     var lastCityId: Int
-        get() = main!!.getInt(LAST_CITY_ID, 706483)
-        set(cityId) = main!!.edit().putInt(LAST_CITY_ID, cityId).apply()
+        get() = preferences!!.getInt(LAST_CITY_ID, 706483)
+        set(cityId) = preferences!!.edit().putInt(LAST_CITY_ID, cityId).apply()
 
     var lastCityName: String
-        get() = main!!.getString(LAST_CITY_NAME, "Харьков")
-        set(cityName) = main!!.edit().putString(LAST_CITY_NAME, cityName).apply()
+        get() = preferences?.getString(LAST_CITY_NAME, "Харьков")?:"Не известно"
+        set(cityName) = preferences!!.edit().putString(LAST_CITY_NAME, cityName).apply()
 
     fun init(context: Context) {
-        main = context.getSharedPreferences("main", Context.MODE_PRIVATE)
+        preferences = context.getSharedPreferences("main", Context.MODE_PRIVATE)
     }
 }
