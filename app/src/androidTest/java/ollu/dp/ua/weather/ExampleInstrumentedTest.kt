@@ -29,12 +29,12 @@ class ExampleInstrumentedTest : Object() {
     @Test
     @Throws(Exception::class)
     fun weatherTest() {
-        val data = Model.instance.getWeatherData(706483)
+        val data = Model.model.getWeatherData(706483)
         assertNotNull(data)
         assertNotNull(data!!.main)
         assertNotNull(Objects.requireNonNull<Array<WeatherData.Weather>>(data.weather)[0].description)
         assertNotNull(Model.getImageUrl(data))
-        assertNotNull(Model.instance.getRawImage(data))
+        assertNotNull(Model.model.getRawImage(data))
         assertNotNull(data.weather!![0].description)
         println("Test Ok")
     }

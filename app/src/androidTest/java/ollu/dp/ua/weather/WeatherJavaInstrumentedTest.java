@@ -32,7 +32,7 @@ public class WeatherJavaInstrumentedTest {
 
     @Test
     public void weatherTest() throws Exception {
-        WeatherData data = Model.getInstance().getWeatherData(706483);
+        WeatherData data = Model.model.getWeatherData(706483);
         assertNotNull(data);
         assertNotNull(data.main);
         if (data.weather == null) {
@@ -41,14 +41,14 @@ public class WeatherJavaInstrumentedTest {
             assertNotNull(data.weather[0].description);
         }
         assertNotNull(Model.getImageUrl(data));
-        assertNotNull(Model.getInstance().getRawImage(data));
+        assertNotNull(Model.model.getRawImage(data));
         System.out.println("Test Ok");
     }
 
 
     @Test
     synchronized public void asyncWeatherTest() throws Exception {
-        Model.getInstance().getWeatherData(706483, (WeatherData data) -> {
+        Model.model.getWeatherData(706483, (WeatherData data) -> {
             assertNotNull(data);
             assertNotNull(data.main);
             if (data.weather == null) {
@@ -57,7 +57,7 @@ public class WeatherJavaInstrumentedTest {
                 assertNotNull(data.weather[0].description);
             }
             assertNotNull(Model.getImageUrl(data));
-            Model.getInstance().getRawImage(data,
+            Model.model.getRawImage(data,
                     responseBody -> {
                         Assert.assertNotNull(responseBody);
                         notifyEnd();

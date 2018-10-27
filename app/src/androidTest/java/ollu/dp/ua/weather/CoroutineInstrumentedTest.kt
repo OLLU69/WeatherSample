@@ -25,7 +25,7 @@ class CoroutineInstrumentedTest {
     fun syncWeatherTest() = runBlocking {
         var data: WeatherData? = null
         launch {
-            data = Model.instance.getWeatherData(CITY_ID)
+            data = Model.model.getWeatherData(CITY_ID)
         }.join()
         testData(data)
     }
@@ -37,7 +37,7 @@ class CoroutineInstrumentedTest {
         assertNotNull(Model.getImageUrl(data))
         runBlocking(CommonPool) {
             data?.let {
-                val image = Model.instance.getRawImage(it)
+                val image = Model.model.getRawImage(it)
                 assertNotNull(image)
             }
         }
@@ -47,7 +47,7 @@ class CoroutineInstrumentedTest {
     fun asyncCoroutineWeatherTest() {
         var passed = false
         runBlocking(UI) {
-            Model.instance.getWeatherData(CITY_ID, { weatherData ->
+            Model.model.getWeatherData(CITY_ID, { weatherData ->
                 testData(weatherData)
                 passed = true
                 println("Данные получены!")
@@ -68,7 +68,7 @@ class CoroutineInstrumentedTest {
         var passed = false
         runTestTimer()
         runBlocking(UI) {
-            val model = Model.instance
+            val model = Model.model
 
             suspend {
                 val asyncData = async(CommonPool) {

@@ -20,12 +20,12 @@ class ExampleUnitTest {
     @Test
     @Throws(Exception::class)
     fun weatherTest() {
-        val data = Model.instance.getWeatherData(706483)
+        val data = Model.model.getWeatherData(706483)
         assertNotNull(data)
         assertNotNull(data?.main)
         assertNotNull(data?.weather?.get(0)?.description)
         assertNotNull(Model.getImageUrl(data))
-        assertNotNull(data?.let { Model.instance.getRawImage(it) })
+        assertNotNull(data?.let { Model.model.getRawImage(it) })
 
         assertNotNull(data?.weather!![0].description)
     }

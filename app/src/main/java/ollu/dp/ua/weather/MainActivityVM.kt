@@ -30,7 +30,7 @@ class MainActivityVM : ViewModel() {
         Settings.lastCityId = cityId
         Settings.lastCityName = cityName
         showProgress.set(true)
-        Model.instance.getWeatherData(cityId, { weatherData: WeatherData? ->
+        Model.model.getWeatherData(cityId, { weatherData: WeatherData? ->
             weatherData?.localName = cityName
             bindData(weatherData)
             showMessage.value = if (weatherData == null) {

@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.vm = ViewModelProviders.of(this).get(MainActivityVM::class.java)
         binding.vm?.showMessage?.observe(this, Observer(this@MainActivity::showMessage))
         timeEvent.observe(this, Observer {
             binding.vm?.loadData()
@@ -33,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
-        binding.vm = ViewModelProviders.of(this).get(MainActivityVM::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -71,7 +71,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-
         const val CITY_ID = "city_id"
         const val CITY_NAME = "city_name"
         const val REQUEST_CITY = 100

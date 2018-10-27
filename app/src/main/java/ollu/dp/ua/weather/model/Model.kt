@@ -1,8 +1,7 @@
 package ollu.dp.ua.weather.model
 
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -43,9 +42,9 @@ class Model {
     private fun <T> runFunc(func: () -> T, onResult: OnResult<T>, onFailure: OnFailure) {
         launch(UI) {
             try {
-                val data = async {
+                val data = withContext(DefaultDispatcher) {
                     func()
-                }.await()
+                }
                 onResult(data)
             } catch (e: Throwable) {
                 e.printStackTrace()
@@ -56,7 +55,7 @@ class Model {
 
     private fun getWeatherII(): WeatherII {
         if (weatherII == null) {
-            weatherII = getRetrofit().create(WeatherII::class.java)
+            weatherII = retrofit.create(WeatherII::class.java)
         }
         return weatherII!!
     }
@@ -93,35 +92,16 @@ class Model {
     }
 
     companion object {
-        private var model: Model? = null
-        private var retrofit: Retrofit? = null
-
-        @JvmStatic
-        val instance: Model
-            get() {
-                if (model == null) {
-                    model = Model()
-                }
-                return model!!
-            }
+        @JvmField
+        val model: Model = Model()
+        private val retrofit: Retrofit = Retrofit.Builder()
+            .baseUrl("http://api.openweathermap.org/data/2.5/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
 
         @JvmStatic
         fun getImageUrl(data: WeatherData?): String? {
-            return if (data?.weather?.get(0)?.icon != null) {
-                "http://openweathermap.org/img/w/${data.weather?.get(0)?.icon ?: ""}.png"
-            } else {
-                null
-            }
-        }
-
-        private fun getRetrofit(): Retrofit {
-            if (retrofit == null) {
-                retrofit = Retrofit.Builder()
-                        .baseUrl("http://api.openweathermap.org/data/2.5/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build()
-            }
-            return retrofit!!
+            return "http://openweathermap.org/img/w/${data?.weather?.get(0)?.icon
+                    ?: return null}.png"
         }
     }
 }

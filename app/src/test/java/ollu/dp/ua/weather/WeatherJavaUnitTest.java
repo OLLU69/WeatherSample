@@ -22,7 +22,7 @@ public class WeatherJavaUnitTest {
 
     @Test
     public void weatherTest() throws Exception {
-        WeatherData data = Model.getInstance().getWeatherData(706483);
+        WeatherData data = Model.model.getWeatherData(706483);
         assertNotNull(data);
         assertNotNull(data.main);
         if (data.weather == null) {
@@ -31,6 +31,6 @@ public class WeatherJavaUnitTest {
             assertNotNull(data.weather[0].description);
         }
         assertNotNull(Model.getImageUrl(data));
-        assertNotNull(Model.getInstance().getRawImage(data));
+        assertNotNull(Model.model.getRawImage(data));
     }
 }
