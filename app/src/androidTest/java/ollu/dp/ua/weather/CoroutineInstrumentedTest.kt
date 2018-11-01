@@ -1,8 +1,7 @@
 package ollu.dp.ua.weather
 
 import android.support.test.runner.AndroidJUnit4
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.*
 import ollu.dp.ua.weather.model.Model
 import ollu.dp.ua.weather.model.WeatherData
 import org.junit.Assert.*
@@ -35,7 +34,7 @@ class CoroutineInstrumentedTest {
         assertNotNull(data?.main)
         assertNotNull(data?.weather?.get(0)?.description)
         assertNotNull(Model.getImageUrl(data))
-        runBlocking(CommonPool) {
+        runBlocking(Dispatchers.Default) {
             data?.let {
                 val image = Model.model.getRawImage(it)
                 assertNotNull(image)
@@ -46,7 +45,7 @@ class CoroutineInstrumentedTest {
     @Test
     fun asyncCoroutineWeatherTest() {
         var passed = false
-        runBlocking(UI) {
+        runBlocking(Dispatchers.Main) {
             Model.model.getWeatherData(CITY_ID, { weatherData ->
                 testData(weatherData)
                 passed = true
@@ -67,11 +66,11 @@ class CoroutineInstrumentedTest {
     fun asyncWeatherTest() {
         var passed = false
         runTestTimer()
-        runBlocking(UI) {
+        runBlocking(Dispatchers.Main) {
             val model = Model.model
 
             suspend {
-                val asyncData = async(CommonPool) {
+                val asyncData = async(Dispatchers.Default) {
                     delay(1000)
                     model.getWeatherData(CITY_ID)
                 }

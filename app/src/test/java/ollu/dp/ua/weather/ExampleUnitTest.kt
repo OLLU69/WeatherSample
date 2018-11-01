@@ -1,6 +1,6 @@
 package ollu.dp.ua.weather
 
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 import ollu.dp.ua.weather.model.Model
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -34,7 +34,7 @@ class ExampleUnitTest {
     @Throws(Exception::class)
     fun asyncTest() {
         println("before runBlocking")
-        runBlocking(CommonPool) {
+        runBlocking(Dispatchers.Default) {
             println("before delay")
             delay(5000)
             println("after delay")
@@ -45,7 +45,7 @@ class ExampleUnitTest {
     @Test
     fun exceptionTest() {
         println("before runBlocking")
-        val i = runBlocking(CommonPool) {
+        val i = runBlocking(Dispatchers.Default) {
             println("before delay")
             delay(5000)
             println("after delay")

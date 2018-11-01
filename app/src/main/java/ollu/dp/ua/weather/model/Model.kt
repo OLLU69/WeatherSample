@@ -1,7 +1,6 @@
 package ollu.dp.ua.weather.model
 
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -40,9 +39,9 @@ class Model {
     }
 
     private fun <T> runFunc(func: () -> T, onResult: OnResult<T>, onFailure: OnFailure) {
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             try {
-                val data = withContext(DefaultDispatcher) {
+                val data = withContext(Dispatchers.Default) {
                     func()
                 }
                 onResult(data)
