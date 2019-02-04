@@ -42,7 +42,7 @@ class ExampleUnitTest {
         println("after runBlocking")
     }
 
-    @Test
+//    @Test
     fun exceptionTest() {
         println("before runBlocking")
         val i = runBlocking(Dispatchers.Default) {
